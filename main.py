@@ -91,7 +91,7 @@ while isTrue:
         elif listToPrint == "4":  # Listar todos os dados
 
             print(formatter.headderLine("RECLAMAÇÕES:"))
-            if not claims.getClaims():
+            if not claims.getClaims(): 
                 print(
                     f'\033[1;33m{"NÃO EXISTEM RECLAMAÇÕES REGISTRADAS!":^100}\033[m\n'
                 )
