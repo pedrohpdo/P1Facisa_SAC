@@ -1,3 +1,4 @@
+from inspect import getcomments
 import classClaims
 import classCompliments
 import classSuggestions
@@ -13,7 +14,7 @@ formatter = auxiliarMethods.Formatter()
 
 isTrue = True
 
-username = validation.testString("Digite seu nome: ")
+username = validation.testString("Digite seu nome: ").capitalize()
 userid = validation.testInt("Digite sua matrícula: ")
 
 print("\033[1:34m-\033[m" * 100)
@@ -22,7 +23,7 @@ print("\033[1:34m-\033[m" * 100)
 print()
 
 while isTrue:
-    title = f"Usuário: {username.capitalize()}  |  Matrícula: {userid}"
+    title = f"Usuário: {username}  |  Matrícula: {userid}"
     print(f"{title:^100}")
     print()
     print(formatter.principalMenu())
@@ -38,7 +39,8 @@ while isTrue:
         print(formatter.registerMenu())
 
         category = validation.testString("O que você deseja Registrar? (1/2/3): ")
-        register = validation.testString("Digite sua ocorrência: ")
+        register = validation.testString("Digite seu feedback: ")
+        print()
 
         if category == "1":
             print(claims.setClaim(username, register))
@@ -92,44 +94,50 @@ while isTrue:
         """
         Deletar feedbacks específicas a partir de um id fornecido pelo usuário ou deletar todos os registros do banco de dados
         """
-
+    
         print(formatter.deletingMenu())
         deleteComand = validation.testString("Selecione: ")
 
         if deleteComand == "4": # Deletar todos os registros do banco de dados
             database.deleteAllDatabaseRecords()
-            print("Todos os dados foram deletados! ")
+            print(f'\033[1;32m{"TODOS OS REGISTROS FORAM DELETADOS!":^100}\033[m\n')
 
         elif deleteComand == "1": #Deletar alguma reclamação
             print(formatter.headderLine("RECLAMAÇÕES"))
-            print(claims.getClaims())
-            idToDelete = validation.testInt("Registro a ser apagado: ")
 
-            if claims.deleteClaim(idToDelete):
-                print("Registro apagado com sucesso!")
+            if not claims.getClaims():
+                print(f'\033[1;33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
             else:
-                print(f'\033[0:33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
+                print(claims.getClaims())
+
+                idToDelete = validation.testInt("Registro a ser apagado: ")
+                claims.deleteClaim(idToDelete)
+                print(f'\033[1;32m{"REGISTRO APAGADO COM SUCESSO!":^100}\033[m')
 
         elif deleteComand == "2": #Deletar algum elogio
             print(formatter.headderLine("ELOGIOS"))
-            print(compliments.getCompliments())
-            idToDelete = validation.testInt("Registro a ser apagado: ")
 
-            if compliments.deleteCompliment(idToDelete):
-                print("Registro apagado com sucesso!")
+            if not compliments.getCompliments():
+                print(f'\033[1;33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
             else:
-                print(f'\033[0:33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
+                print(compliments.getCompliments())
+
+                idToDelete = validation.testInt("Registro a ser apagado: ")
+                compliments.deleteCompliment(idToDelete)
+                print(f'\033[1;32m{"REGISTRO APAGADO COM SUCESSO!":^100}\033[m')
 
         elif deleteComand == "3": #Deletar alguma sugestão
             print(formatter.headderLine("SUGESTÕES"))
-            print(suggestions.getSuggestions())
 
-            idToDelete = validation.testInt("Registro a ser apagado: ")
-
-            if suggestions.deleteSuggestion(idToDelete):
-                print("Registro apagado com sucesso!")
+            if not suggestions.getSuggestions():
+                print(f'\n\033[1;32m{"NÃO EXISTEM DADOS A SEREM DELETADOS":^100}\033[m\n')
             else:
-                print(f'\033[0:33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
+                print(suggestions.getSuggestions())
+
+                idToDelete = validation.testInt("Registro a ser apagado: ")
+                suggestions.deleteSuggestion(idToDelete)
+                print(f'\n\033[1;32m{"REGISTRO APAGADO COM SUCESSO":^100}\033[m\n')
+
         print()
 
     elif menuAction == "4":
@@ -141,38 +149,55 @@ while isTrue:
  
         if updateList == "1": #Editar alguma reclamação
             print(formatter.headderLine("RECLAMAÇÕES"))
-            print(claims.getClaims())
 
-            positionToUpdate = validation.testInt("Registro a ser alterado: ")
-            newValue = validation.testString("Digite seu novo feedback: ")
+            if not claims.getClaims():
+                print(f'\n\033[1;33m{"NÃO EXISTEM DADOS A SEREM ALTERADOS":^100}\033[m\n')
+            else:
+                print(claims.getClaims())
 
-            if claims.updateClaim(positionToUpdate, newValue):
-                print("Registro Atualizado Com Sucesso!")
+                positionToUpdate = validation.testInt("Registro a ser alterado: ")
+                newValue = validation.testString("Digite seu novo feedback: ")
+
+                claims.updateClaim(positionToUpdate, newValue)
+                print(f'\n\033[1;32m{"REGISTRO ATUALIZADO COM SUCESSO!":^100}\033[m')
 
         elif updateList == "2": #Editar algum elogio
             print(formatter.headderLine("ELOGIOS"))
-            print(compliments.getCompliments())
 
-            positionToUpdate = validation.testInt("Registro a ser Alterado: ")
-            newValue = validation.testString("Digite seu novo feedback: ")
+            if not compliments.getCompliments():
+                print(f'\n\033[1;33m{"NÃO EXISTEM DADOS A SEREM ALTERADOS":^100}\033[m\n')
+            else:
+                print(compliments.getCompliments())
 
-            if claims.updateCompliment(positionToUpdate, newValue):
-                print("Registro Atualizado com Sucesso!")
+                positionToUpdate = validation.testInt("Registro a ser Alterado: ")
+                newValue = validation.testString("Digite seu novo feedback: ")
+
+                compliments.updateCompliment(positionToUpdate, newValue)
+                print(f'\n\033[1;32m{"REGISTRO ATUALIZADO COM SUCESSO!":^100}\033[m')
+
 
         elif updateList == "3": #Editar alguma sugestão
             print(formatter.headderLine("SUGESTÕES"))
-            print(suggestions.getSuggestions())
 
-            positionToUpdate = validation.testPositionList(suggestions.suggestionsList)
-            newValue = validation.testString("Digite seu novo feedback: ")
+            if not suggestions.getSuggestions():
+                print(f'\n\033[1;33m{"NÃO EXISTEM DADOS A SEREM ALTERADOS":^100}\033[m\n')
+            else:
+                print(suggestions.getSuggestions())
+                positionToUpdate = validation.testInt("Registro a ser alterado: ")
+                newValue = validation.testString("Digite seu novo feedback: ")
 
-            if suggestions.updateSuggestion(positionToUpdate, newValue):
-                print("Registro Atualizado com Sucesso!")
+                suggestions.updateSuggestions(positionToUpdate, newValue)
+                print(f'\n\033[1;32m{"REGISTRO ATUALIZADO COM SUCESSO!":^100}\033[m')
+            
+                
 
     elif menuAction == "5": #Sair do programa
-        print()
-        print(formatter.headderLine('OBRIGADO POR USAR O SISTEMA UNIFACISA!'))
         isTrue = False
 
+        print()
+        print(formatter.headderLine('OBRIGADO POR USAR O SISTEMA UNIFACISA!'))
+        print(f'\033[1m{"Pedro Henrique Pereira de Oliveira":^100}\033[m')
+        print(f'\033[1m{"github.com/pedrohpdo":^100}\033[m')
+                
     else:
-        print("Comando Inválido! Tente Novamente!")
+        print(f'\033[1;31m{"COMANDO INVÁLIDO! TENTE NOVAMENTE":^100}\033[m\n')

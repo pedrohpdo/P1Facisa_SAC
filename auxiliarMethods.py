@@ -95,7 +95,7 @@ class Formatter:
             f'{"NOVO REGISTRO:":-^100}\n\n'
             f"1 | Reclamações\n"
             f"2 | Elogios\n"
-            f"3 | Sugestões"
+            f"3 | Sugestões\n"
         )
 
         return menu
@@ -106,18 +106,19 @@ class Formatter:
             f"1 | Reclamações\n"
             f"2 | Elogios\n"
             f"3 | Sugestões\n"
-            f"4 | Listar Tudo"
+            f"4 | Listar Tudo\n"
         )
 
         return menu
 
     def deletingMenu(self):
+        
         menu = (
             f'{"APAGAR:":-^100}\n\n'
             f"1 | Reclamações\n"
             f"2 | Elogios\n"
             f"3 | Sugestões\n"
-            f"4 | Apagar todos os Registros!"
+            f"4 | Apagar todos os Registros!\n"
         )
 
         return menu

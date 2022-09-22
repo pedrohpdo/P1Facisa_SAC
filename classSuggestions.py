@@ -28,7 +28,7 @@ class Suggestions:
         database.insertNewRecordInDatabase(connection, sqlCode, data)
         database.closeDatabase(connection)
 
-        return f'\033[1m{"REGISTRO ADICIONADO COM SUCESSO!":^100}\033[m'
+        return f'\033[1;32m{"REGISTRO ADICIONADO COM SUCESSO!":^100}\033[m'
 
     def getSuggestions(self):
         """
@@ -53,8 +53,12 @@ class Suggestions:
 
             index += 1
 
+        if not self.suggestionsId:
+            return False
+        else:
+            return listing
+        
 
-        return listing
 
     def deleteSuggestion(self, idToDelete):
         """

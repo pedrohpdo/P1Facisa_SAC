@@ -30,7 +30,7 @@ class Compliments:
         database.insertNewRecordInDatabase(connection, sqlCode, data)
         database.closeDatabase(connection)
 
-        return f'\033[1m{"REGISTRO ADICIONADO COM SUCESSO!":^100}\033[m'
+        return f'\033[1;32m{"REGISTRO ADICIONADO COM SUCESSO!":^100}\033[m'
 
     def getCompliments(self):
         """
@@ -57,8 +57,11 @@ class Compliments:
 
             index+=1
 
+        if not self.complimentsId:
+            return False
+        else:
+            return listing
 
-        return listing
 
     def deleteCompliment(self, idToDelete):
         """
@@ -100,7 +103,7 @@ class Compliments:
             data = (newValue, indexOfCompliments)
 
             database.updateDatabaseRecords(connection, sqlCode, data)
-            database.closeDatabase()
+            database.closeDatabase(connection)
             
             return True 
 

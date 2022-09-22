@@ -30,7 +30,7 @@ class Claims:
         id = database.insertNewRecordInDatabase(connection, sqlCode, data)
         database.closeDatabase(connection)
 
-        return f'\033[1m{"REGISTRO ADICIONADO COM SUCESSO!":^100}\033[m'
+        return f'\033[1;32m{"REGISTRO ADICIONADO COM SUCESSO!":^100}\033[m'
 
     def getClaims(self):
         """
@@ -56,7 +56,11 @@ class Claims:
 
             index += 1
 
-        return listing
+        if not self.claimsId:
+            return False
+        else:
+            return listing
+
 
     def deleteClaim(self, idToDelete):
         """m registro específico do banco de dados a partir de um id fornecido pelo usuário
@@ -67,12 +71,11 @@ class Claims:
         Função que deleta u boolean que comprova se o registro foi apagado, ou outro que mostra se a lista estiver previamente vazia, não existindo dados a serem apagados
         print(self.claimsId)
         """
-       
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
         if not self.claimsId:
             return False
         else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
             sqlCode = "DELETE FROM feedbacks where id = %s"
             data = (self.claimsId[idToDelete - 1],)
 
