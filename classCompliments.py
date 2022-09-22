@@ -10,6 +10,8 @@ class Compliments:
     Classe da categoria Compliments (Elogios), todos os dados dessa categoria serão, adicionados e tratados na classe.
     """
 
+    complimentsId = []
+
     def setCompliment(self, author, value):
         """
         Função que adiciona um novo registro de elogios dentro do banco de dados.
@@ -37,14 +39,25 @@ class Compliments:
         :return: Retorna um lista com as linhas do banco de dados correspondentes as reclamações
         """
 
+        self.complimentsId =[]
+        index = 1
         listing = ""
+
         connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
         sqlCode = "SELECT * FROM feedbacks where type = 'compliment'"
+
         result = database.getDatabaseRecords(connection, sqlCode)
+        database.closeDatabase(connection)
 
         for data in result:
-            listing += f"| ID: {data[0]:<8} | Tipo: {data[1]:<10} | Autor: {data[2]:<15} | Registro: {data[3]:<15}\n"
-            
+
+            listing += f"| ID: {index:<8} | Tipo: {data[1]:<10} | Autor: {data[2]:<15} | Registro: {data[3]:<15}\n"
+
+            self.complimentsId.append(data[0])
+
+            index+=1
+
+
         return listing
 
     def deleteCompliment(self, idToDelete):
@@ -56,12 +69,17 @@ class Compliments:
         :return: retorna um boolean que comprova se a posição foi apagada, ou outro que mostra se a lista estiver previamente vazia, não existindo dados a serem apagados
         """
 
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
+        if not self.complimentsId:
+            return False
+        else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
-        sqlCode = "DELETE FROM feedbacks where id = %s"
-        data = (idToDelete,)
-        database.deleteDatabaseRecords(connection, sqlCode, data)
-        database.closeDatabase(connection)
+            sqlCode = "DELETE FROM feedbacks where id = %s"
+            data = (self.complimentsId[idToDelete - 1],)
+
+            database.deleteDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase(connection)
+
 
         return True
 
@@ -74,15 +92,19 @@ class Compliments:
         :param newValue: nova informção que será registrada no lugar da anterior.
         :return: um boolean que comprova a alteração de dados
         """
+        if not self.complimentsId:
+            return False
+        else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
+            sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
+            data = (newValue, indexOfCompliments)
 
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
-        sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
-        data = (newValue, indexOfCompliments)
+            database.updateDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase()
+            
+            return True 
 
-        database.updateDatabaseRecords(connection, sqlCode, data)
-        database.closeDatabase()
 
-        return True
 
     def deleteAllCompliments(self):
         """
@@ -93,7 +115,7 @@ class Compliments:
 
         connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
         sqlCode = "DELETE FROM feedbacks WHERE type = %s"
-        data = "compliment"
+        data = ("compliment")
         database.deleteDatabaseRecords(connection, sqlCode, data)
         database.closeDatabase(connection)
 

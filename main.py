@@ -2,7 +2,9 @@ import classClaims
 import classCompliments
 import classSuggestions
 import auxiliarMethods
+import dataBaseOperations
 
+database = dataBaseOperations
 claims = classClaims.Claims()
 compliments = classCompliments.Compliments()
 suggestions = classSuggestions.Suggestions()
@@ -20,7 +22,7 @@ print("\033[1:34m-\033[m" * 100)
 print()
 
 while isTrue:
-    title = f"Usuário: {username}  |  Matrícula: {userid}"
+    title = f"Usuário: {username.capitalize()}  |  Matrícula: {userid}"
     print(f"{title:^100}")
     print()
     print(formatter.principalMenu())
@@ -95,11 +97,8 @@ while isTrue:
         deleteComand = validation.testString("Selecione: ")
 
         if deleteComand == "4": # Deletar todos os registros do banco de dados
-            claims.deleteAllClaims()
-            compliments.deleteAllCompliments()
-            suggestions.deleteAllSugesstions()
+            database.deleteAllDatabaseRecords()
             print("Todos os dados foram deletados! ")
-            print()
 
         elif deleteComand == "1": #Deletar alguma reclamação
             print(formatter.headderLine("RECLAMAÇÕES"))
@@ -110,7 +109,6 @@ while isTrue:
                 print("Registro apagado com sucesso!")
             else:
                 print(f'\033[0:33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
-            print()
 
         elif deleteComand == "2": #Deletar algum elogio
             print(formatter.headderLine("ELOGIOS"))
@@ -121,7 +119,6 @@ while isTrue:
                 print("Registro apagado com sucesso!")
             else:
                 print(f'\033[0:33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
-            print()
 
         elif deleteComand == "3": #Deletar alguma sugestão
             print(formatter.headderLine("SUGESTÕES"))
@@ -133,7 +130,7 @@ while isTrue:
                 print("Registro apagado com sucesso!")
             else:
                 print(f'\033[0:33m{"NÃO EXISTEM DADOS A SEREM APAGADOS":^100}\033[m\n')
-            print()
+        print()
 
     elif menuAction == "4":
         """

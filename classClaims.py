@@ -11,6 +11,8 @@ class Claims:
     serão, adicionados e tratados na classe.
     """
 
+    claimsId =[]
+
     def setClaim(self, author, value):
         """
         Função que adiciona um novo registro de reclamação ao banco de Dados
@@ -25,7 +27,7 @@ class Claims:
         )
         data = ("claim", author, value)
 
-        database.insertNewRecordInDatabase(connection, sqlCode, data)
+        id = database.insertNewRecordInDatabase(connection, sqlCode, data)
         database.closeDatabase(connection)
 
         return f'\033[1m{"REGISTRO ADICIONADO COM SUCESSO!":^100}\033[m'
@@ -37,36 +39,47 @@ class Claims:
         :return: Retorna um lista com as linhas do banco de dados correspondentes as reclamações
         """
 
+        self.claimsId = []
+        index = 1
         listing = ''
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
+        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
         sqlCode = "SELECT * FROM feedbacks where type = 'claim'"
         result = database.getDatabaseRecords(connection, sqlCode)
+        database.closeDatabase(connection)
 
         for data in result:
-            listing += f"| ID: {data[0]:<8} | Tipo: {data[1]:<10} | Autor: {data[2]:<15} | Registro: {data[3]:<15}\n"
 
-        database.closeDatabase(connection)
+            listing += f"| ID: {index:<8} | Tipo: {data[1]:<10} | Autor: {data[2]:<15} | Registro: {data[3]:<15}\n"
+
+            self.claimsId.append(data[0])
+
+            index += 1
 
         return listing
 
     def deleteClaim(self, idToDelete):
-        """
-        Função que deleta um registro específico do banco de dados a partir de um id fornecido pelo usuário
+        """m registro específico do banco de dados a partir de um id fornecido pelo usuário
         
         :param idToDelete: id fornecido pelo usuário com o registro que vai ser deletado
 
-        :return: retorna um boolean que comprova se o registro foi apagado, ou outro que mostra se a lista estiver previamente vazia, não existindo dados a serem apagados
+        :return: retorna um
+        Função que deleta u boolean que comprova se o registro foi apagado, ou outro que mostra se a lista estiver previamente vazia, não existindo dados a serem apagados
+        print(self.claimsId)
         """
-
+       
         connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
-        sqlCode = "DELETE FROM feedbacks where id = %s"
-        data = (idToDelete,)
-        database.deleteDatabaseRecords(connection, sqlCode, data)
+        if not self.claimsId:
+            return False
+        else:
+            sqlCode = "DELETE FROM feedbacks where id = %s"
+            data = (self.claimsId[idToDelete - 1],)
 
-        database.closeDatabase(connection)
-        return True
+            database.deleteDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase(connection)
+
+            return True
 
     def updateClaim(self, indexOfClaim, newValue):
         """
@@ -76,15 +89,19 @@ class Claims:
         :param newValue: novo registro que vai sobrescrever o antigo.
         :return: um boolean que confirma o novo registro.
         """
+        if not self.claimsId:
+            return False
+        else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
+            sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
+            data = (newValue, self.claimsId[indexOfClaim - 1])
 
-        sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
-        data = (newValue, indexOfClaim)
-        database.updateDatabaseRecords(connection, sqlCode, data)
-        database.closeDatabase(connection)
+            database.updateDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase(connection)
 
-        return True
+            return True
+
 
     def deleteAllClaims(self):
         """
@@ -92,11 +109,13 @@ class Claims:
 
         :return: um boolean confirmando o processo.
         """
+        if not self.claimsId:
+            return False
+        else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
+            sqlCode = "DELETE FROM feedbacks WHERE type = %s"
+            data = ("claim")
+            database.deleteDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase(connection)
 
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
-        sqlCode = "DELETE FROM feedbacks WHERE type = %s"
-        data = "claim"
-        database.deleteDatabaseRecords(connection, sqlCode, data)
-        database.closeDatabase(connection)
-
-        return True
+            return True

@@ -1,3 +1,4 @@
+from multiprocessing import connection
 import mysql.connector
 """
 Classe que armazena todas as funções de interação dentro do bando de dados
@@ -46,6 +47,7 @@ def insertNewRecordInDatabase(connection, sql, data):
     cursor = connection.cursor()
     cursor.execute(sql, data)
     connection.commit()
+
     id = cursor.lastrowid
     cursor.close()
 
@@ -64,6 +66,7 @@ def getDatabaseRecords(connection, sql):
 
     cursor = connection.cursor()
     cursor.execute(sql)
+
     results = cursor.fetchall()
     cursor.close()
 
@@ -98,4 +101,18 @@ def updateDatabaseRecords(connection, sql, data):
 
     dataAffected = cursor.rowcount
     cursor.close()
+
     return dataAffected
+
+
+def deleteAllDatabaseRecords():
+    connection = openDatabase("localhost", "root", "root", "ouvidoria")
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM feedbacks")
+    connection.commit()
+
+    dataAffected = cursor.rowcount
+    cursor.close()
+
+    return dataAffected
+    

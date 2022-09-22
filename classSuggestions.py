@@ -8,6 +8,7 @@ class Suggestions:
     """
     Classe da categoria Sugesstions (Sugestões), todos os dados dessa categoria serão, adicionados e tratados na classe.
     """
+    suggestionsId = []
     
     def setSuggestion(self, author, value):
         """
@@ -35,17 +36,22 @@ class Suggestions:
 
         :return: Retorna um lista com as linhas do banco de dados correspondentes as sugestões
         """
-
+        self.suggestionsId = []
+        index = 0
         listing = ''
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
+        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
         sqlCode = "SELECT * FROM feedbacks where type = 'suggestion'"
         result = database.getDatabaseRecords(connection, sqlCode)
+        database.closeDatabase(connection)
 
         for data in result:
-            listing += f"| ID: {data[0]:<8} | Tipo: {data[1]:<10} | Autor: {data[2]:<15} | Registro: {data[3]:<15}\n"
+            listing += f"| ID: {index:<8} | Tipo: {data[1]:<10} | Autor: {data[2]:<15} | Registro: {data[3]:<15}\n"
 
-        database.closeDatabase(connection)
+            self.suggestionsId.append(data[0])
+
+            index += 1
+
 
         return listing
 
@@ -58,15 +64,19 @@ class Suggestions:
         :return: retorna um boolean que comprova se a posição foi apagada, ou outro que mostra se a lista estiver previamente vazia, não existindo dados a serem apagados
         """
 
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
+        if not self.suggestionsId:
+            return False
+        else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
-        sqlCode = "DELETE FROM feedbacks where id = %s"
-        data = (idToDelete,)
-        database.deleteDatabaseRecords(connection, sqlCode, data)
+            sqlCode = "DELETE FROM feedbacks where id = %s"
+            data = (self.suggestionsId[idToDelete - 1],)
 
-        database.closeDatabase(connection)
+            database.deleteDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase(connection)
 
-        return True
+            return True
+
 
     def updateSuggestion(self, indexOfSuggestion, newValue):
         """
@@ -77,14 +87,20 @@ class Suggestions:
 
         :return: um boolean que comprova a alteração de dados
         """
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
-        sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
-        data = (newValue, indexOfSuggestion)
-        database.updateDatabaseRecords(connection, sqlCode, data)
-        database.closeDatabase(connection)
+        if not self.suggestionsId:
+            return False
+        else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
-        return True
+            sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
+            data = (newValue, self.suggestionsId[indexOfSuggestion - 1])
+
+            database.updateDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase(connection)
+
+            return True
+
 
     def deleteAllSugesstions(self):
         """
@@ -92,10 +108,15 @@ class Suggestions:
 
         :return: um boolean confirmando o processo.
         """
-        connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
-        sqlCode = "DELETE FROM feedbacks WHERE type = %s"
-        data = "claim"
-        database.deleteDatabaseRecords(connection, sqlCode, data)
-        database.closeDatabase(connection)
-        
-        return True
+
+        if not self.suggestionsId:
+            return False
+        else:
+            connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
+            sqlCode = "DELETE FROM feedbacks WHERE type = %s"
+            data = ("claim")
+            database.deleteDatabaseRecords(connection, sqlCode, data)
+            database.closeDatabase(connection)
+            
+            return True
+         
