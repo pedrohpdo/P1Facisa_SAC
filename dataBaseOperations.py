@@ -94,7 +94,16 @@ def deleteDatabaseRecords(connection, sql, idToDelete):
 
 
 def updateDatabaseRecords(connection, sql, data):
-    """ """
+    """ 
+    Deleta elementos específico da tabela a partir de sua PRIMARY KEY id
+
+    :param connection: conexão com o banco de dados MYSQL
+    :param sql: comando que vai deletar algum dado da tabela
+    :param data: dados que serão usados como referência para alteração de dados
+
+    return: todas as linhas que foram afetadas pelo processo
+    """
+    
     cursor = connection.cursor()
     cursor.execute(sql, data)
     connection.commit()
@@ -106,6 +115,10 @@ def updateDatabaseRecords(connection, sql, data):
 
 
 def deleteAllDatabaseRecords():
+    """
+    Deleta todos os elementos da tabela feedbacks
+    """
+
     connection = openDatabase("localhost", "root", "root", "ouvidoria")
     cursor = connection.cursor()
     cursor.execute("DELETE FROM feedbacks")

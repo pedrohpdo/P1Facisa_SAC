@@ -36,6 +36,7 @@ class Suggestions:
 
         :return: Retorna um lista com as linhas do banco de dados correspondentes as sugestões
         """
+        
         self.suggestionsId = []
         index = 0
         listing = ''
