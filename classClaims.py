@@ -13,7 +13,7 @@ class Claims:
 
     claimsId =[]
 
-    def setClaim(self, author, value):
+    def setClaim(self, author: str, value: str):
         """
         Função que adiciona um novo registro de reclamação ao banco de Dados
         :param value: o registro (em String) que será adicionado a lista.
@@ -62,7 +62,7 @@ class Claims:
             return listing
 
 
-    def deleteClaim(self, idToDelete):
+    def deleteClaim(self, idToDelete: int):
         """m registro específico do banco de dados a partir de um id fornecido pelo usuário
         
         :param idToDelete: id fornecido pelo usuário com o registro que vai ser deletado
@@ -84,7 +84,7 @@ class Claims:
 
             return True
 
-    def updateClaim(self, indexOfClaim, newValue):
+    def updateClaim(self, indexOfClaim: int, newValue: str):
         """
         Edita um valor já existente no banco de dados e o sobrescreve por um novo.
 

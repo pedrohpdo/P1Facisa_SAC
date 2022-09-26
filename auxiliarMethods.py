@@ -12,7 +12,7 @@ class Validation:
     de forma inesperada.
     """
 
-    def testString(self, value):
+    def testString(self, value: str):
         """
         Função que testa Strings que serão fornecidas pelo usuário. A ideia é evitar que o usuário passe uma String
         vazia e o programa saia do funcionamento padrão.
@@ -30,7 +30,7 @@ class Validation:
             else:
                 return stringToRead
 
-    def testInt(self, value):
+    def testInt(self, value: int):
         """
         Função que testa valores inteiros que serão fornecidos pelo usuário. A ideia é evitar que o programa pare
         inesperadamente por conta de uma entrada inválida. Se espera um inteiro o usuário passa uma String,
@@ -48,7 +48,7 @@ class Validation:
             else:
                 return intValidation
 
-    def testPositionList(self, value, listToRead):
+    def testPositionList(self, value: int, listToRead: list):
         """
         Função que testa valores inteiros referentes a posições na lista fornecidos pelo usuário. A ideia é evitar
         que o programa pare por conta de uma posição fornecida que não existe na lista [IndexError], seja ela maior ou

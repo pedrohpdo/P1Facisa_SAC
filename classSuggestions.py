@@ -10,7 +10,7 @@ class Suggestions:
     """
     suggestionsId = []
     
-    def setSuggestion(self, author, value):
+    def setSuggestion(self, author: str, value: str):
         """
         Função que adiciona um novo registro de sugestões dentro do banco de dados.
 
@@ -60,7 +60,7 @@ class Suggestions:
         
 
 
-    def deleteSuggestion(self, idToDelete):
+    def deleteSuggestion(self, idToDelete: int):
         """
         Função que deleta um registro específico do banco de dados a partir de um id fornecido pelo usuário
 
@@ -83,7 +83,7 @@ class Suggestions:
             return True
 
 
-    def updateSuggestion(self, indexOfSuggestion, newValue):
+    def updateSuggestion(self, indexOfSuggestion: int, newValue: str):
         """
         Função que altera o registro de uma determinada sugestão dentro do banco de dados
 

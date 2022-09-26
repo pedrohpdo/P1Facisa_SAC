@@ -6,7 +6,7 @@ MYSQL. Basicamente, as funções CRUD do Sistema de Ouvidoria.
 """
 
 
-def openDatabase(host, user, password, database):
+def openDatabase(host: str, user: str, password: str, database: str):
     """
     Abertura do Banco de Dados MYSQL
 

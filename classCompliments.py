@@ -12,7 +12,7 @@ class Compliments:
 
     complimentsId = []
 
-    def setCompliment(self, author, value):
+    def setCompliment(self, author: str, value: str):
         """
         Função que adiciona um novo registro de elogios dentro do banco de dados.
 
@@ -63,7 +63,7 @@ class Compliments:
             return listing
 
 
-    def deleteCompliment(self, idToDelete):
+    def deleteCompliment(self, idToDelete: int):
         """
         Função que deleta um registro específico do banco de dados a partir de um id fornecido pelo usuário
 
@@ -86,7 +86,7 @@ class Compliments:
 
         return True
 
-    def updateCompliment(self, indexOfCompliments, newValue):
+    def updateCompliment(self, indexOfCompliments: int, newValue: str):
         """
         Função que altera o registro de uma determinada posição na lista.
 
