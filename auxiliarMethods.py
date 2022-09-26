@@ -48,7 +48,7 @@ class Validation:
             else:
                 return intValidation
 
-    def testPositionList(self, listToRead):
+    def testPositionList(self, value, listToRead):
         """
         Função que testa valores inteiros referentes a posições na lista fornecidos pelo usuário. A ideia é evitar
         que o programa pare por conta de uma posição fornecida que não existe na lista [IndexError], seja ela maior ou
@@ -63,9 +63,11 @@ class Validation:
 
         """
         while True:
-            positionToValidate = int(input("Selecione a posição: "))
             try:
+                positionToValidate = int(input(value))
                 listToRead[positionToValidate - 1]
+            except (ValueError, TypeError):
+                print("\033[31mDigite um Valor Válido!\033[m")
             except IndexError:
                 print("\033[31mDigite uma Posição Válida!\033[m")
             else:

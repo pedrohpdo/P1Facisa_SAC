@@ -1,5 +1,5 @@
-from multiprocessing import connection
 import mysql.connector
+
 """
 Classe que armazena todas as funções de interação dentro do bando de dados
 MYSQL. Basicamente, as funções CRUD do Sistema de Ouvidoria.
@@ -94,7 +94,7 @@ def deleteDatabaseRecords(connection, sql, idToDelete):
 
 
 def updateDatabaseRecords(connection, sql, data):
-    """ 
+    """
     Deleta elementos específico da tabela a partir de sua PRIMARY KEY id
 
     :param connection: conexão com o banco de dados MYSQL
@@ -103,7 +103,7 @@ def updateDatabaseRecords(connection, sql, data):
 
     return: todas as linhas que foram afetadas pelo processo
     """
-    
+
     cursor = connection.cursor()
     cursor.execute(sql, data)
     connection.commit()
@@ -128,4 +128,3 @@ def deleteAllDatabaseRecords():
     cursor.close()
 
     return dataAffected
-    

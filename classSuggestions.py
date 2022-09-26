@@ -38,7 +38,7 @@ class Suggestions:
         """
         
         self.suggestionsId = []
-        index = 0
+        index = 1
         listing = ''
 
         connection = database.openDatabase("localhost", "root", "root", "ouvidoria")

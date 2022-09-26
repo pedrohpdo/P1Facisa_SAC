@@ -1,4 +1,3 @@
-from inspect import getcomments
 import classClaims
 import classCompliments
 import classSuggestions
@@ -132,7 +131,8 @@ while isTrue:
             else:
                 print(claims.getClaims())
 
-                idToDelete = validation.testInt("Registro a ser apagado: ")
+                idToDelete = validation.testPositionList('Registro a ser apagado: ', claims.claimsId)
+
                 claims.deleteClaim(idToDelete)
                 print(f'\033[1;32m{"REGISTRO APAGADO COM SUCESSO!":^100}\033[m')
 
@@ -144,7 +144,7 @@ while isTrue:
             else:
                 print(compliments.getCompliments())
 
-                idToDelete = validation.testInt("Registro a ser apagado: ")
+                idToDelete = validation.testPositionList("Registro a ser apagado: ", compliments.complimentsId)
                 compliments.deleteCompliment(idToDelete)
                 print(f'\033[1;32m{"REGISTRO APAGADO COM SUCESSO!":^100}\033[m')
 
@@ -158,7 +158,7 @@ while isTrue:
             else:
                 print(suggestions.getSuggestions())
 
-                idToDelete = validation.testInt("Registro a ser apagado: ")
+                idToDelete = validation.testPositionList("Registro a ser apagado: ", suggestions.suggestionsId)
                 suggestions.deleteSuggestion(idToDelete)
                 print(f'\n\033[1;32m{"REGISTRO APAGADO COM SUCESSO":^100}\033[m\n')
 
