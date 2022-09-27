@@ -77,7 +77,7 @@ class Claims:
         else:
             connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
             sqlCode = "DELETE FROM feedbacks where id = %s"
-            data = (self.claimsId[idToDelete - 1],)
+            data = (self.claimsId[idToDelete],)
 
             database.deleteDatabaseRecords(connection, sqlCode, data)
             database.closeDatabase(connection)
@@ -98,7 +98,7 @@ class Claims:
             connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
             sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
-            data = (newValue, self.claimsId[indexOfClaim - 1])
+            data = (newValue, self.claimsId[indexOfClaim],)
 
             database.updateDatabaseRecords(connection, sqlCode, data)
             database.closeDatabase(connection)

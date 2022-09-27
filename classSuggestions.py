@@ -75,7 +75,7 @@ class Suggestions:
             connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
             sqlCode = "DELETE FROM feedbacks where id = %s"
-            data = (self.suggestionsId[idToDelete - 1],)
+            data = (self.suggestionsId[idToDelete],)
 
             database.deleteDatabaseRecords(connection, sqlCode, data)
             database.closeDatabase(connection)
@@ -99,7 +99,7 @@ class Suggestions:
             connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
             sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
-            data = (newValue, self.suggestionsId[indexOfSuggestion - 1])
+            data = (newValue, self.suggestionsId[indexOfSuggestion],)
 
             database.updateDatabaseRecords(connection, sqlCode, data)
             database.closeDatabase(connection)

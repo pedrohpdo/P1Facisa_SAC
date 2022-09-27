@@ -90,7 +90,7 @@ while isTrue:
         elif listToPrint == "4":  # Listar todos os dados
 
             print(formatter.headderLine("RECLAMAÇÕES:"))
-            if not claims.getClaims(): 
+            if not claims.getClaims():
                 print(
                     f'\033[1;33m{"NÃO EXISTEM RECLAMAÇÕES REGISTRADAS!":^100}\033[m\n'
                 )
@@ -108,6 +108,10 @@ while isTrue:
                 print(f'\033[1;33m{"NÃO EXISTEM SUGESTÕES REGISTRADAS!":^100}\033[m\n')
             else:
                 print(suggestions.getSuggestions())
+            
+        else:
+            print(f'\033[31m{"Comando inválido!":^100}\033[m\n')
+            
 
         print()
 
@@ -131,7 +135,9 @@ while isTrue:
             else:
                 print(claims.getClaims())
 
-                idToDelete = validation.testPositionList('Registro a ser apagado: ', claims.claimsId)
+                idToDelete = validation.testPositionList(
+                    "Registro a ser apagado: ", claims.claimsId
+                )
 
                 claims.deleteClaim(idToDelete)
                 print(f'\033[1;32m{"REGISTRO APAGADO COM SUCESSO!":^100}\033[m')
@@ -144,7 +150,9 @@ while isTrue:
             else:
                 print(compliments.getCompliments())
 
-                idToDelete = validation.testPositionList("Registro a ser apagado: ", compliments.complimentsId)
+                idToDelete = validation.testPositionList(
+                    "Registro a ser apagado: ", compliments.complimentsId
+                )
                 compliments.deleteCompliment(idToDelete)
                 print(f'\033[1;32m{"REGISTRO APAGADO COM SUCESSO!":^100}\033[m')
 
@@ -158,9 +166,14 @@ while isTrue:
             else:
                 print(suggestions.getSuggestions())
 
-                idToDelete = validation.testPositionList("Registro a ser apagado: ", suggestions.suggestionsId)
+                idToDelete = validation.testPositionList(
+                    "Registro a ser apagado: ", suggestions.suggestionsId
+                )
                 suggestions.deleteSuggestion(idToDelete)
                 print(f'\n\033[1;32m{"REGISTRO APAGADO COM SUCESSO":^100}\033[m\n')
+
+        else:
+            print(f'\033[31m{"Comando inválido!":^100}\033[m\n')
 
         print()
 
@@ -181,7 +194,7 @@ while isTrue:
             else:
                 print(claims.getClaims())
 
-                positionToUpdate = validation.testInt("Registro a ser alterado: ")
+                positionToUpdate = validation.testPositionList("Registro a ser alterado: ", claims.claimsId)
                 newValue = validation.testString("Digite seu novo feedback: ")
 
                 claims.updateClaim(positionToUpdate, newValue)
@@ -197,7 +210,7 @@ while isTrue:
             else:
                 print(compliments.getCompliments())
 
-                positionToUpdate = validation.testInt("Registro a ser Alterado: ")
+                positionToUpdate = validation.testPositionList("Registro a ser Alterado: ", compliments.complimentsId)
                 newValue = validation.testString("Digite seu novo feedback: ")
 
                 compliments.updateCompliment(positionToUpdate, newValue)
@@ -212,11 +225,15 @@ while isTrue:
                 )
             else:
                 print(suggestions.getSuggestions())
-                positionToUpdate = validation.testInt("Registro a ser alterado: ")
+                positionToUpdate = validation.testPositionList("Registro a ser alterado: ", suggestions.suggestionsId)
                 newValue = validation.testString("Digite seu novo feedback: ")
 
-                suggestions.updateSuggestions(positionToUpdate, newValue)
+                suggestions.updateSuggestion(positionToUpdate, newValue)
                 print(f'\n\033[1;32m{"REGISTRO ATUALIZADO COM SUCESSO!":^100}\033[m')
+        
+        else:
+            print(f'\033[31m{"Comando inválido!":^100}\033[m\n')
+        print()
 
     elif menuAction == "5":  # Sair do programa
         isTrue = False
@@ -225,6 +242,9 @@ while isTrue:
         print(formatter.headderLine("OBRIGADO POR USAR O SISTEMA UNIFACISA!"))
         print(f'\033[1m{"Pedro Henrique Pereira de Oliveira":^100}\033[m')
         print(f'\033[1m{"github.com/pedrohpdo":^100}\033[m')
+        print()
+        print()
+
 
     else:
         print(f'\033[1;31m{"COMANDO INVÁLIDO! TENTE NOVAMENTE":^100}\033[m\n')

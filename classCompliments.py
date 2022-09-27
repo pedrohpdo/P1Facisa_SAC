@@ -55,7 +55,7 @@ class Compliments:
 
             self.complimentsId.append(data[0])
 
-            index+=1
+            index += 1
 
         if not self.complimentsId:
             return False
@@ -78,7 +78,7 @@ class Compliments:
             connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
 
             sqlCode = "DELETE FROM feedbacks where id = %s"
-            data = (self.complimentsId[idToDelete - 1],)
+            data = (self.complimentsId[idToDelete],)
 
             database.deleteDatabaseRecords(connection, sqlCode, data)
             database.closeDatabase(connection)
@@ -99,8 +99,9 @@ class Compliments:
             return False
         else:
             connection = database.openDatabase("localhost", "root", "root", "ouvidoria")
+
             sqlCode = "UPDATE feedbacks SET description = %s WHERE id = %s"
-            data = (newValue, indexOfCompliments)
+            data = (newValue, self.complimentsId[indexOfCompliments],)
 
             database.updateDatabaseRecords(connection, sqlCode, data)
             database.closeDatabase(connection)
